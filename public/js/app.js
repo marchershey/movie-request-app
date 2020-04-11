@@ -54753,6 +54753,8 @@ var functions = {
     $('.movie-action-request').hide();
     $('.movie-vote-button').prop('disabled', false);
     $('.movie-action-vote').hide();
+    $('.movie-add-button').prop('disabled', false);
+    $('.movie-action-add').show();
     movie.clearAlerts();
   },
   modalError: function modalError(text) {
@@ -54931,6 +54933,29 @@ var functions = {
         if (results == 'success:vote') {
           movie.updateVotes();
           movie.modalSuccess('You have successfully added your vote!');
+        }
+      }
+    });
+  },
+  add: function add(form) {
+    $('.movie-add-button').prop('disabled', true);
+    $('.movie-action-add').slideUp();
+    $.ajax({
+      url: './movie/action/add',
+      method: 'post',
+      data: form.serialize(),
+      success: function success(results) {
+        if (results == 'failed:movie') {
+          movie.modalError('Failed to save movie to database.');
+          $('.movie-add-button').prop('disabled', false);
+          $('.movie-action-add').slideDown();
+        } else if (results == 'failed:queue') {
+          movie.modalError('The movie was saved to the database, but failed to remove the movie from the queue.');
+          $('.movie-add-button').prop('disabled', false);
+          $('.movie-action-add').slideDown();
+        } else {
+          $(".movie-item[data-id='" + results + "']").remove();
+          movie.modalSuccess('Successfully added');
         }
       }
     });

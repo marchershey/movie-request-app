@@ -96,6 +96,17 @@
                                     </div>
                                     @endif
                                 </div>
+                                @if(Auth::check())
+                                @if(Auth::user()->is_admin)
+                                <div class="movie-action-add">
+                                    <form class="movie-add-form">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="movie_id" class="movie-id">
+                                        <button type="submit" class="movie-add-button btn btn-success">Add</button>
+                                    </form>
+                                </div>
+                                @endif
+                                @endif
                             </div>
                         </div>
 
@@ -123,6 +134,11 @@
     $( '.movie-vote-form' ).on( 'submit', function ( e ) {
         e.preventDefault()
         movie.vote( $( this ) )
+    } )
+
+    $( '.movie-add-form' ).on( 'submit', function ( e ) {
+        e.preventDefault()
+        movie.add( $( this ) )
     } )
 
 </script>
