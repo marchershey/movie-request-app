@@ -25,6 +25,7 @@ Route::get('/trending', function () {
 
 Route::post('/movie/action/request', 'MovieController@action_request');
 Route::post('/movie/action/vote', 'MovieController@action_vote');
+Route::post('/movie/action/add', 'MovieController@action_add');
 Route::post('/movie/button/request', 'MovieController@button_request');
 Route::post('/movie/button/vote', 'MovieController@button_vote');
 Route::post('/movie/get/votes', 'MovieController@get_votes');

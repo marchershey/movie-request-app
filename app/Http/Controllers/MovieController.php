@@ -26,6 +26,28 @@ class MovieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function action_add(Request $request)
+    {
+        $movie = Movie::find($request->movie_id);
+        $movie->added = 1;
+        if ($movie->save()) {
+            $queue = Queue::where('movie_id', $movie->id);
+            if ($queue->delete()) {
+                return $movie->id;
+            } else {
+                return 'failed:queue';
+            }
+        } else {
+            return 'failed:movie';
+        }
+    }
+
+    /**
+     * Runs the action of requesting a movie
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function action_request(Request $request)
     {
         if (!Movie::where('tmdb_id', $request->tmdb_id)->exists()) {
