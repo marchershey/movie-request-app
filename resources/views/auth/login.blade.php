@@ -50,6 +50,9 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                @if (Route::has('register'))
+                                <a class="btn btn-link btn-block" href="{{route('register')}}">Create an acount</a>
+                                @endif
                             </form>
                         </div>
                     </div>
