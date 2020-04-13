@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', 'IndexController@index')->name('index');
+Route::middleware(['auth'])->group(function () {
+    // Frontend
+    Route::get('/', 'IndexController@index')->name('index');
 
-Route::get('/home', 'HomeController@index')->name('home');
+    // User
+    Route::get('/home', 'HomeController@index')->name('home');
+
+    // Admin
+});
