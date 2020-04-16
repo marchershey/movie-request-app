@@ -24,4 +24,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
 
     // Admin
+    Route::group(['middleware' => 'admin', 'namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+        Route::get('/', 'IndexController@index')->name('index');
+    });
+
+    // POST Requests
+    Route::post('/search/tmdb', 'IndexController@searchTmdb');
 });
