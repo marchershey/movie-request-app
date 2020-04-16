@@ -29,5 +29,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // POST Requests
-    Route::post('/search/tmdb', 'IndexController@searchTmdb');
+    Route::post('/request/{id}', 'MovieController@request');
+    Route::post('/search/tmdb', 'MovieController@searchTmdb');
+    Route::post('/search/tmdb/videos', 'MovieController@searchTmdbVideos');
 });

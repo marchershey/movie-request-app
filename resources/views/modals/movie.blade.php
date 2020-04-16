@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold" id="modal-title">
-                    <span class="movie-title">Movie Name</span> <span class="small text-muted"><span class="movie-tmdb-id">####</span></span>
+                    <span class="movie-title">Movie Name</span> <span class="small text-muted">ID: <span class="movie-tmdb-id">####</span></span>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" style="font-size: 1.8rem">&times;</span>
@@ -39,76 +39,9 @@
                                 </div>
                             </div>
 
-                            <div class="movie-modal-error row" style="display: none">
-                                <div class="col">
-                                    <div class="alert alert-danger text-center" role="alert">
-                                        <strong>Error:</strong> <span class="movie-modal-error-text"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="movie-modal-success row" style="display: none">
-                                <div class="col">
-                                    <div class="alert alert-success text-center" role="alert">
-                                        <span class="movie-modal-success-text"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="movie-modal-info row" style="display: none">
-                                <div class="col">
-                                    <div class="alert alert-info text-center" role="alert">
-                                        <span class="movie-modal-info-text"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="movie-actions row">
+                            <div class="row">
                                 <div class="col mb-3">
-                                    <div class="movie-action-request" style="display: none;">
-                                        @if(Auth::check())
-                                        <form class="movie-request-form">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="id" class="movie-id">
-                                            <input type="hidden" name="tmdb_id" class="movie-tmdb-id">
-                                            <input type="hidden" name="title" class="movie-title">
-                                            <input type="hidden" name="year" class="movie-year">
-                                            <input type="hidden" name="desc" class="movie-desc">
-                                            <input type="hidden" name="poster" class="movie-poster">
-                                            <input type="hidden" name="trailer" class="movie-trailer">
-                                            <button type="submit" class="movie-request-button btn btn-primary btn-block">Request Movie</button>
-                                        </form>
-                                        @else
-                                        <div class="alert alert-primary text-center" role="alert">
-                                            <a href="{{route('login')}}">Sign in</a> or <a href="{{route('register')}}">Create an account</a> to <strong>request</strong> this movie.
-                                        </div>
-                                        @endif
-                                    </div>
-                                    <div class="movie-action-vote" style="display: none;">
-                                        @if(Auth::check())
-                                        <form class="movie-vote-form">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="movie_id" class="movie-id">
-                                            <input type="hidden" name="queue_id" class="queue-id">
-                                            <button type="submit" class="movie-request-button btn btn-primary btn-block">Vote for this movie!</button>
-                                        </form>
-                                        @else
-                                        <div class="alert alert-primary text-center" role="alert">
-                                            <a href="{{route('login')}}">Sign in</a> or <a href="{{route('register')}}">Create an account</a> to <strong>vote</strong> for this movie.
-                                        </div>
-                                        @endif
-                                    </div>
-                                    @if(Auth::check())
-                                    @if(Auth::user()->is_admin)
-                                    <div class="movie-action-add">
-                                        <form class="movie-add-form">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="movie_id" class="movie-id">
-                                            <button type="submit" class="movie-add-button btn btn-success">Add</button>
-                                        </form>
-                                    </div>
-                                    @endif
-                                    @endif
+                                    <button type="button" id="movie-request-button" class="btn btn-primary btn-lg btn-block">Request <span class="movie-title"></span></button>
                                 </div>
                             </div>
 
@@ -129,18 +62,8 @@
 
 @push('scripts')
 <script>
-    $( '.movie-request-form' ).on( 'submit', function ( e ) {
-        e.preventDefault()
-        movie.request( $( this ) )
-    } )
-    $( '.movie-vote-form' ).on( 'submit', function ( e ) {
-        e.preventDefault()
-        movie.vote( $( this ) )
-    } )
-
-    $( '.movie-add-form' ).on( 'submit', function ( e ) {
-        e.preventDefault()
-        movie.add( $( this ) )
+    $( '#movie-request-button' ).on( 'click', function () {
+        movie.request( $( '.movie-tmdb-id' ).text() )
     } )
 
 </script>

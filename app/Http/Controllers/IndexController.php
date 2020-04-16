@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Movie;
-use App\Tmdb;
 use Illuminate\Http\Request;
-use Laravel\Ui\Presets\React;
 
 class IndexController extends Controller
 {
@@ -17,13 +14,6 @@ class IndexController extends Controller
     public function searchSubmit(Request $request)
     {
         return $request;
-    }
-
-    public function searchTmdb(Request $request)
-    {
-        $tmdb = new Tmdb;
-        $movies = $tmdb->request('search/movie', $request->movie);
-        return $movies;
     }
 }
 
