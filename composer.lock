@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0dcbdc80776ca79d6311b8f92c5a4b5",
+    "content-hash": "61464dd71f4fac4f3b4a113c4ecaa7c3",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -102,6 +102,46 @@
                 "math"
             ],
             "time": "2020-02-17T13:57:43+00:00"
+        },
+        {
+            "name": "digitalhigh/radarr",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/d8ahazard/Radarr.git",
+                "reference": "9cb3350e53ee207efa013bab3bdef9a24133c5ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/d8ahazard/Radarr/zipball/9cb3350e53ee207efa013bab3bdef9a24133c5ca",
+                "reference": "9cb3350e53ee207efa013bab3bdef9a24133c5ca",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "digitalhigh\\Radarr\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jesse Szypulski",
+                    "email": "jesse.szypulski@gmail.com"
+                },
+                {
+                    "name": "Digitalhigh",
+                    "email": "donate.to.digitalhigh@gmail.com"
+                }
+            ],
+            "description": "PHP Radarr API Wrapper",
+            "time": "2018-05-16T20:12:58+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -5682,7 +5722,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "digitalhigh/radarr": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

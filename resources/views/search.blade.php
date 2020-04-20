@@ -26,16 +26,18 @@
         </div>
     </div>
 </div>
-@endsection
 
 @include('modals.movie')
+
+@endsection
+
 
 @push('scripts')
 <script>
     $( '#searchform' ).on( 'submit', function ( e ) {
         e.preventDefault();
         search.reset()
-        search.tmdb( $( '#searchbox' ).val() )
+        search.search( $( '#searchbox' ).val() )
         $( '#searchbox' ).blur()
     } )
 

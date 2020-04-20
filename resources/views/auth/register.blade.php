@@ -52,25 +52,9 @@
                                     <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password" value="" required>
                                     <small id="confdesc" class="form-text text-muted">Retype your password.</small>
                                 </div>
-                                <div class="form-row my-4">
-                                    <div class="col">
-                                        <div class="custom-control custom-checkbox mb-2">
-                                            <input type="checkbox" class="custom-control-input" id="tos" required>
-                                            <label class="custom-control-label small text-muted" for="tos">I have read, understand, and agree to the <a href="#">Terms of Service</a> and the <a href="#">Account Sharing Policy</a> </label>
-                                        </div>
-                                        <div class="custom-control custom-checkbox mb-2">
-                                            <input type="checkbox" class="custom-control-input" id="tutorial" required>
-                                            <label class="custom-control-label small text-muted" for="tutorial">I agree that after I create my account, I will complete the <strong>on-boarding tutorial</strong> and follow any and all instructions explained in the tutorial.</label>
-                                        </div>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="sharing" required>
-                                            <label class="custom-control-label small text-muted" for="sharing">I understand that if I am suspected of sharing my account with anyone outside of my home, my account will be permanently banned and I will no longer have access to {{config('app.name')}}.</label>
-                                        </div>
-                                    </div>
-                                </div>
                                 <button type="submit" class="btn btn-primary btn-block">Create Account</button>
                                 @if (Route::has('register'))
-                                <a class="btn btn-link btn-block" href="{{route('register')}}">Sign in</a>
+                                <a class="btn btn-link btn-block" href="{{route('login')}}">Sign in</a>
                                 @endif
                             </form>
                         </div>

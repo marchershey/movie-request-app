@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
-        DB::insert('insert into users (name, email, password, admin) values (?, ?, ?, ?)', ['Marc', 'marclewishershey@gmail.com', Hash::make('password'), true]);
+        DB::insert('insert into users (name, email, password, admin) values (?, ?, ?, ?)', ['Admin', 'admin@admin.com', Hash::make('password'), true]);
     }
 
     /**

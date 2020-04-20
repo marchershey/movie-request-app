@@ -33,15 +33,31 @@
                                 </div>
                             </div>
 
+                            <div id="movie-modal-badge">
+                                <div class="row mb-2">
+                                    <div class="col text-center text-lg-left">
+                                        <div id="movie-modal-badge-text"></div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col mb-3">
                                     <span class="movie-desc text-muted">This is the movie description.</span>
                                 </div>
                             </div>
 
+                            <div id="movie-modal-alert">
+                                <div class="row">
+                                    <div class="col mb-3">
+                                        <div id="movie-modal-alert-text"></div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
-                                <div class="col mb-3">
-                                    <button type="button" id="movie-request-button" class="btn btn-primary btn-lg btn-block">Request <span class="movie-title"></span></button>
+                                <div class="col mb-3 text-center">
+                                    <div id="actions"></div>
                                 </div>
                             </div>
 
@@ -62,8 +78,8 @@
 
 @push('scripts')
 <script>
-    $( '#movie-request-button' ).on( 'click', function () {
-        movie.request( $( '.movie-tmdb-id' ).text() )
+    $( '#movie-modal' ).on( 'click', '#movie-request-button', function () {
+        movie.request( $( '#movie-modal' ), $( '.movie-tmdb-id' ).text() )
     } )
 
 </script>

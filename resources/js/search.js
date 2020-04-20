@@ -6,30 +6,51 @@ var functions = {
         $( '#movie-list' ).slideUp()
     },
 
-    tmdb: ( movie ) => {
+    search: ( term ) => {
         $.ajax( {
             type: "POST",
-            url: './search/tmdb',
+            url: './search/movies',
             data: {
-                'movie': movie,
+                'movie': term,
                 '_token': $( 'meta[name="csrf-token"]' ).attr( 'content' )
             },
-            success: function ( data ) {
-                console.log( data )
+            success: function ( movies ) {
+                console.log( movies )
                 var html = ''
-                $.each( data.results, function ( key, movie ) {
-                    var poster = ( movie.poster_path == null ) ? 'https://i.imgur.com/yNRAnse.png' : 'https://image.tmdb.org/t/p/w300/' + movie.poster_path
+                $.each( movies, function ( key, movie ) {
+                    // var year = ( movie.release_date == null ) ? 'unknown' : movie.release_date.substr( 0, 4 )
+                    var poster = ( movie.remotePoster == null ) ? 'https://i.imgur.com/yNRAnse.png' : movie.remotePoster
+                    var trailer = ( movie.youTubeTrailerId == null ) ? '' : movie.youTubeTrailerId
+                    // var installed = ()
                     html += `
-                    <div class="movie-item col-6 col-md-3 mb-3" data-tmdbid="${ movie.id }" data-title="${ movie.title }" data-year="${ movie.release_date.substr( 0, 4 ) }" data-overview="${ movie.overview }" data-poster="${ poster }">
-                        <div class="card">
-                            <img src="${poster }" class="card-img-top img-fluid" alt="movie poster">
-                                <div class="card-body font-weight-bold text-truncate text-center p-2">
-                                    ${movie.title }
-                                </div>
+                    <div class="movie-item col-6 col-md-3 mb-3" data-tmdbid="${ movie.tmdbId }" data-title="${ movie.title }" data-year="${ movie.year }" data-overview="${ movie.overview }" data-poster="${ poster }" data-trailer="${ trailer }" data-status="${ movie.status }" data-monitored="${ movie.monitored }" data-downloaded="${ movie.downloaded }">
+                        <div class="card">`
+
+                    if ( movie.monitored ) {
+                        if ( movie.downloaded ) {
+                            html += `
+                            <div class="ribbon-wrapper">
+                                <div class="ribbon ribbon-green">INSTALLED</div>
+                            </div>`
+                        } else {
+                            html += `
+                            <div class="ribbon-wrapper">
+                                <div class="ribbon ribbon-yellow">PROCESSING</div>
+                            </div>`
+                        }
+                    }
+
+                    if ( movie.status == 'announced' ) {
+                        html += `
+                        <div class="ribbon-wrapper">
+                            <div class="ribbon ribbon-yellow">UPCOMING</div>
+                        </div>`
+                    }
+
+                    html += `<img src="${ poster }" class="card-img-top img-fluid" alt="movie poster">
                             </div>
                         </div>
-                    </div>
-                    `
+                    </div>`
                 } )
                 $( '#movie-list' ).append( html ).imagesLoaded().then( function () {
                     $( '#search-loading' ).slideUp()
