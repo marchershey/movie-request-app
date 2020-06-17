@@ -8,10 +8,10 @@
                 <div class="card-body">
                     <p class="lead text-center m-0">Request a Movie</p>
                     <p class="small text-muted text-center">Search for a movie to request it.</p>
-                    <form id="searchform" action="/search/tmdb" method="POST">
+                    <form id="searchform" action="/search/movies" method="POST">
                         @csrf
                         <div class="form-group text-center">
-                            <input type="text" class="form-control text-center" id="searchbox" placeholder="Search...">
+                            <input type="text" class="form-control text-center" id="searchbox" name="movie" placeholder="Search...">
                             <p class="small text-muted text-center mt-2">Submit to search!</p>
                         </div>
                     </form>
@@ -37,7 +37,7 @@
     $( '#searchform' ).on( 'submit', function ( e ) {
         e.preventDefault();
         search.reset()
-        search.search( $( '#searchbox' ).val() )
+        search.search( $( '#searchbox' ).val(), $('meta[name="csrf-token"]').attr('content') )
         $( '#searchbox' ).blur()
     } )
 
