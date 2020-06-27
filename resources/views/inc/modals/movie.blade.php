@@ -68,7 +68,7 @@
                                     <form class="movie-request-form">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="hidden" name="id" class="movie-id">
-                                        <input type="hidden" name="tmdb_id" class="movie-tmdb-id">
+                                        <input type="hidden" name="tmdbId" class="movie-tmdb-id">
                                         <input type="hidden" name="title" class="movie-title">
                                         <input type="hidden" name="year" class="movie-year">
                                         <input type="hidden" name="desc" class="movie-desc">
@@ -130,15 +130,6 @@
     $( '.movie-request-form' ).on( 'submit', function ( e ) {
         e.preventDefault()
         movie.request( $( this ) )
-    } )
-    $( '.movie-vote-form' ).on( 'submit', function ( e ) {
-        e.preventDefault()
-        movie.vote( $( this ) )
-    } )
-
-    $( '.movie-add-form' ).on( 'submit', function ( e ) {
-        e.preventDefault()
-        movie.add( $( this ) )
     } )
 
 </script>

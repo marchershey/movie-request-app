@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Queue;
-use App\User;
-use Illuminate\Http\Request;
+use App\Radarr;
 
 class QueueController extends Controller
 {
@@ -15,10 +13,7 @@ class QueueController extends Controller
      */
     public function index()
     {
-        $queues = Queue::orderByDesc('votes')->orderBy('id')->paginate(8);
-
-        // return User::find(1)->name;
-        // return $movies;
-        return view('queue')->with('queues', $queues);
+        $queue = (new Radarr)->getQueue();
+        return view('queue')->with('queue', $queue);
     }
 }

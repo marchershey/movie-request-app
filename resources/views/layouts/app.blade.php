@@ -36,7 +36,13 @@
                             <a class="nav-link" href="{{route('index')}}">Home </a>
                         </li>
                         <li class="nav-item" data-content="View the queue of movies being added" data-toggle="popover" data-trigger="hover" data-placement="bottom">
-                            <a class="nav-link" href="{{route('index.queue')}}">Queue {!!App\Queue::queueAmt() == '0' ? '' : '<sup class="badge badge-secondary">'. App\Queue::queueAmt() . '</sup>'!!}</a>
+                            {{-- {!! collect((new Radarr)->getQueue())->count() == '0' ? '' : '<sup class="badge badge-secondary">'. App\Queue::queueAmt() . '</sup>'!!} --}}
+
+                            @php
+                            $qCount = collect((new App\Radarr)->getQueue())->count();
+                            @endphp
+
+                            <a class="nav-link" href="{{route('index.queue')}}">Queue {!! ($qCount == '0') ? '' : '<sup class="badge badge-secondary">'. $qCount . '</sup>'!!}</a>
                         </li>
                         <li class="nav-item" data-content="Request a movie to be added" data-toggle="popover" data-trigger="hover" data-placement="bottom">
                             <a class="nav-link" href="{{route('index.search')}}">Search</a>

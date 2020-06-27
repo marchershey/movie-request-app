@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- trending.blade.php -->
 <div class="container" id="request">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-5">
@@ -19,11 +20,6 @@
 
     <div class="row d-flex justify-content-center mb-3">
         <div class="col-12">
-
-            <div class="error alert alert-danger text-center" role="alert" style="display:none;">
-                <strong>Error:</strong> <span class="error-text"></span>
-            </div>
-
             <ul class="nav nav-pills justify-content-center mb-3" id="trending-select" role="tablist">
                 <li class="nav-item">
                     <a class="daily nav-link active" id="daily-tab" data-toggle="pill" href="#tabs-daily" role="tab" aria-controls="tabs-daily" aria-selected="true">

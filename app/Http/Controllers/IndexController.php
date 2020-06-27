@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Movie;
-use Illuminate\Http\Request;
+use App\Event;
+use App\Radarr;
 
 class IndexController extends Controller
 {
@@ -14,7 +14,9 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $movies = Movie::where('added', 1)->paginate(6);
-        return view('index')->with('movies', $movies);
+        $movies = collect((new Radarr)->getAllInstalledMovies())->sortByDesc('added');
+        $count = count($movies);
+        $events = Event::all()->sortByDesc('created_at')->paginate(10);
+        return view('index')->with('movies', $movies->paginate(30))->with('count', $count)->with('events', $events);
     }
 }

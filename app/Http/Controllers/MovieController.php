@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Movie;
-use App\Queue;
-use App\Vote;
+// use App\Movie;
+// use App\Queue;
+// use App\Vote;
+use App\Event;
+use App\Radarr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,25 +23,25 @@ class MovieController extends Controller
     }
 
     /**
-     * Runs the action of requesting a movie
+     * Return if the request button should display.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function action_add(Request $request)
+    public function button_request(Request $request)
     {
-        $movie = Movie::find($request->movie_id);
-        $movie->added = 1;
-        if ($movie->save()) {
-            $queue = Queue::where('movie_id', $movie->id);
-            if ($queue->delete()) {
-                return $movie->id;
+        $installedMovies = collect((new Radarr)->getAllInstalledMovies());
+        $movie = collect($installedMovies->where('tmdbId', $request->tmdb_id))->collapse();
+
+        if ($movie->isNotEmpty()) {
+            if ($movie['downloaded']) {
+                return 'downloaded';
             } else {
-                return 'failed:queue';
+                return 'queue';
             }
-        } else {
-            return 'failed:movie';
         }
+
+        return false;
     }
 
     /**
@@ -50,165 +52,154 @@ class MovieController extends Controller
      */
     public function action_request(Request $request)
     {
-        if (!Movie::where('tmdb_id', $request->tmdb_id)->exists()) {
-            if (!$movie = $this->store_movie($request)) {
-                return 'failed:store_movie';
-            }
-        } else {
-            $movie = Movie::where('tmdb_id', $request->tmdb_id)->first();
-        }
+        // save the event
+        // return $request;
 
-        // movie exists in queue
+        (new Event)->addEvent(Auth::user()->id, $request->tmdbId, $request->title);
 
-        return $this->add_queue($movie->id, $request->tmdb_id);
+        return $reponse = (new Radarr)->requestMovie($request->tmdbId);
+
     }
 
-    /**
-     * Runs the action of voting for a movie
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function action_vote(Request $request)
-    {
-        if ($this->add_vote($request->movie_id, $request->queue_id)) {
-            return 'success:vote';
-        } else {
-            return 'failed:vote';
-        }
-    }
+    // /**
+    //  * Runs the action of requesting a movie
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function action_add(Request $request)
+    // {
+    //     $movie = Movie::find($request->movie_id);
+    //     $movie->added = 1;
+    //     if ($movie->save()) {
+    //         $queue = Queue::where('movie_id', $movie->id);
+    //         if ($queue->delete()) {
+    //             return $movie->id;
+    //         } else {
+    //             return 'failed:queue';
+    //         }
+    //     } else {
+    //         return 'failed:movie';
+    //     }
+    // }
 
-    /**
-     * Store a newly requested movie
-     *
-     * @param  array  $movie
-     * @return string
-     */
-    public function store_movie($data)
-    {
-        $movie = new Movie;
-        $movie->tmdb_id = $data->tmdb_id;
-        $movie->title = $data->title;
-        $movie->year = $data->year;
-        $movie->desc = $data->desc;
-        $movie->poster = $data->poster;
-        $movie->trailer = $data->trailer;
-        if ($movie->save()) {
-            return $movie;
-        }
-        return false;
-    }
+    // /**
+    //  * Runs the action of voting for a movie
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function action_vote(Request $request)
+    // {
+    //     if ($this->add_vote($request->movie_id, $request->queue_id)) {
+    //         return 'success:vote';
+    //     } else {
+    //         return 'failed:vote';
+    //     }
+    // }
 
-    /**
-     * Add a newly requested movie to the queue
-     *
-     * @param  array  $movie
-     * @return boolean
-     */
-    public function add_queue($movie_id, $tmdb_id)
-    {
-        $queue = Queue::where('movie_id', $movie_id)->first();
-        if (is_null($queue)) {
-            $user_id = (Auth::check()) ? Auth::user()->id : 0;
-            $queue = new Queue();
-            $queue->movie_id = $movie_id;
-            $queue->tmdb_id = $tmdb_id;
-            $queue->user_id = $user_id;
-            $queue->ip = request()->ip();
-            if ($queue->save()) {
-                $vote = new Vote();
-                $vote->user_id = Auth::user()->id;
-                $vote->movie_id = $movie_id;
-                $vote->queue_id = $queue->id;
-                if ($vote->save()) {
-                    $return = 'success:queue';
-                } else {
-                    $return = 'failed:vote';
-                }
-            } else {
-                $return = 'failed:queue';
-            }
-        }
-        // need throwable error if queue exists for some odd reason
-        return $return;
-    }
+    // /**
+    //  * Store a newly requested movie
+    //  *
+    //  * @param  array  $movie
+    //  * @return string
+    //  */
+    // public function store_movie($data)
+    // {
+    //     $movie = new Movie;
+    //     $movie->tmdb_id = $data->tmdb_id;
+    //     $movie->title = $data->title;
+    //     $movie->year = $data->year;
+    //     $movie->desc = $data->desc;
+    //     $movie->poster = $data->poster;
+    //     $movie->trailer = $data->trailer;
+    //     if ($movie->save()) {
+    //         return $movie;
+    //     }
+    //     return false;
+    // }
 
-    /**
-     * Add a vote to a movie in the queue
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function add_vote($movie_id, $queue_id)
-    {
-        $vote = new Vote();
-        $vote->user_id = Auth::user()->id;
-        $vote->movie_id = $movie_id;
-        $vote->queue_id = $queue_id;
-        if (!$vote->save()) {
-            return false;
-        }
-        return true;
-    }
+    // /**
+    //  * Add a newly requested movie to the queue
+    //  *
+    //  * @param  array  $movie
+    //  * @return boolean
+    //  */
+    // public function add_queue($movie_id, $tmdb_id)
+    // {
+    //     $queue = Queue::where('movie_id', $movie_id)->first();
+    //     if (is_null($queue)) {
+    //         $user_id = (Auth::check()) ? Auth::user()->id : 0;
+    //         $queue = new Queue();
+    //         $queue->movie_id = $movie_id;
+    //         $queue->tmdb_id = $tmdb_id;
+    //         $queue->user_id = $user_id;
+    //         $queue->ip = request()->ip();
+    //         if ($queue->save()) {
+    //             $vote = new Vote();
+    //             $vote->user_id = Auth::user()->id;
+    //             $vote->movie_id = $movie_id;
+    //             $vote->queue_id = $queue->id;
+    //             if ($vote->save()) {
+    //                 $return = 'success:queue';
+    //             } else {
+    //                 $return = 'failed:vote';
+    //             }
+    //         } else {
+    //             $return = 'failed:queue';
+    //         }
+    //     }
+    //     // need throwable error if queue exists for some odd reason
+    //     return $return;
+    // }
 
-    /**
-     * Add a vote to a movie in the queue
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function get_votes(Request $request)
-    {
-        $votes = Vote::where('movie_id', $request->movie_id)->get();
-        $count = count($votes);
-        return $count;
-    }
+    // /**
+    //  * Add a vote to a movie in the queue
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function add_vote($movie_id, $queue_id)
+    // {
+    //     $vote = new Vote();
+    //     $vote->user_id = Auth::user()->id;
+    //     $vote->movie_id = $movie_id;
+    //     $vote->queue_id = $queue_id;
+    //     if (!$vote->save()) {
+    //         return false;
+    //     }
+    //     return true;
+    // }
 
-    /**
-     * Return if the request button should display.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function button_request(Request $request)
-    {
-        // $movie = Movie::where([['tmdb_id', $request->tmdbid], ['added', 1]])->first();
-        // if (is_null($movie)) {
-        //     // not been added, is it in the queue?
-        //     $queue = Queue::where('tmdb_id', $request->tmdb_id)->first();
-        // } else {
-        //     return 'added';
-        // }
+    // /**
+    //  * Add a vote to a movie in the queue
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function get_votes(Request $request)
+    // {
+    //     $votes = Vote::where('movie_id', $request->movie_id)->get();
+    //     $count = count($votes);
+    //     return $count;
+    // }
 
-        $queue = Queue::where('tmdb_id', $request->tmdb_id)->first();
-        if (!is_null($queue)) {
-            return 'queue';
-        } else {
-            // not in queue
-            $movie = Movie::where([['tmdb_id', $request->tmdbid], ['added', 1]])->first();
-            if (!is_null($movie)) {
-                return 'added';
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Return if the request button should display.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function button_vote(Request $request)
-    {
-        if (Auth::check()) {
-            $movie = Movie::where('tmdb_id', $request->tmdb_id)->first();
-            $vote = Vote::where([['movie_id', $movie->id], ['user_id', Auth::user()->id]])->first();
-            if (!is_null($vote)) {
-                return 'voted';
-            }
-        }
-        return false;
-    }
+    // /**
+    //  * Return if the request button should display.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function button_vote(Request $request)
+    // {
+    //     if (Auth::check()) {
+    //         $movie = Movie::where('tmdb_id', $request->tmdb_id)->first();
+    //         $vote = Vote::where([['movie_id', $movie->id], ['user_id', Auth::user()->id]])->first();
+    //         if (!is_null($vote)) {
+    //             return 'voted';
+    //         }
+    //     }
+    //     return false;
+    // }
 
     /**
      * Show the form for creating a new resource.
