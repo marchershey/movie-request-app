@@ -33,8 +33,9 @@
                         $size = ($q['sizeleft'] == 0) ? '<em>not available</em>' : round($q['size'] * .000000001, 2) . 'GB';
                         $requester = App\Event::firstWhere('tmdbid', $q['movie']['tmdbId']);
                         $requester = (!$requester->anonymous) ? $requester->user->name : 'Anonymous';
+                        $trailer = '';
                         @endphp
-                        <div class="movie-item no-grow row mb-3" data-id="" data-tmdb-id="{{$q['movie']['tmdbId']}}" data-title="{{$q['movie']['title']}}" data-desc="{{$q['movie']['overview']}}" data-year="{{$q['movie']['year']}}" data-poster="{{$q['movie']['images'][0]['url']}}" data-trailer="{{$q['movie']['youTubeTrailerId']}}">
+                        <div class="movie-item no-grow row mb-3" data-id="" data-tmdb-id="{{$q['movie']['tmdbId']}}" data-title="{{$q['movie']['title']}}" data-desc="{{$q['movie']['overview']}}" data-year="{{$q['movie']['year']}}" data-poster="{{$q['movie']['images'][0]['url']}}">
                             <div class="col-4 col-xl-3">
                                 <img src="{{$q['movie']['images'][0]['url']}}" class="img-thumbnail img-fluid">
                             </div>
@@ -119,9 +120,7 @@
         var desc = $movie.data( 'desc' )
         var poster = $movie.data( 'poster' )
         var trailer = $movie.data( 'trailer' )
-        var votes = $movie.data( 'votes' )
-        var queue_id = $movie.data( 'queue-id' )
-        movie.openMovieModal( id, tmdb, title, year, desc, poster, trailer, 'vote', votes, queue_id )
+        movie.openMovieModal( id, tmdb, title, year, desc, poster, '', 'vote' )
     } )
 
 </script>
