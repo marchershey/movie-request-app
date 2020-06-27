@@ -17,6 +17,6 @@ class IndexController extends Controller
         $movies = collect((new Radarr)->getAllInstalledMovies())->sortByDesc('added');
         $count = count($movies);
         $events = Event::all()->sortByDesc('created_at')->paginate(10);
-        return view('index')->with('movies', $movies->paginate(9))->with('count', $count)->with('events', $events);
+        return view('index')->with('movies', $movies->paginate(36))->with('count', $count)->with('events', $events);
     }
 }
