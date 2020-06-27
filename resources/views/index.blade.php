@@ -25,7 +25,7 @@
                         $user = (!$event->anonymous) ? $event->user->name : 'Anonymous';
                         @endphp
 
-                        <li class="list-group-item p-1"><strong class="text-capitalize">{{$user}}</strong> added <strong>{{$event->title}}</strong> <span class="event-time">{{$event->created_at->getTimestamp()}}</span></li>
+                        <li class="list-group-item p-1"><strong class="text-capitalize">{{$user}}</strong> downloaded <strong>{{$event->title}}</strong> <span class="event-time">{{$event->created_at->getTimestamp()}}</span></li>
 
                         @endforeach
                         @else
