@@ -34,10 +34,11 @@
                         $requester = App\Event::firstWhere('tmdbid', $q['movie']['tmdbId']);
                         $requester = (!$requester->anonymous) ? $requester->user->name : 'Anonymous';
                         $trailer = '';
+                        $poster = (new App\Movie)->getPoster($q['movie']['tmdbId']);
                         @endphp
-                        <div class="movie-item no-grow row mb-3" data-id="" data-tmdb-id="{{$q['movie']['tmdbId']}}" data-title="{{$q['movie']['title']}}" data-desc="{{$q['movie']['overview']}}" data-year="{{$q['movie']['year']}}" data-poster="{{$q['movie']['images'][0]['url']}}">
+                        <div class="movie-item no-grow row mb-3" data-id="" data-tmdb-id="{{$q['movie']['tmdbId']}}" data-title="{{$q['movie']['title']}}" data-desc="{{$q['movie']['overview']}}" data-year="{{$q['movie']['year']}}" data-poster="{{$poster}}">
                             <div class="col-4 col-xl-3">
-                                <img src="{{$q['movie']['images'][0]['url']}}" class="img-thumbnail img-fluid">
+                                <img src="{{$poster}}" class="img-thumbnail img-fluid">
                             </div>
                             <div class="col-8 col-xl-9">
                                 <h4 class="text-truncate">{{$q['movie']['title']}}</h4>
@@ -79,8 +80,8 @@
 
                         {{-- @if(count($queue) > 0)
                         @foreach($queue as $q)
-                        <div class="movie-item col-4 col-lg-2 mb-3" data-id="" data-tmdb-id="{{$q['movie']['tmdbId']}}" data-title="{{$q['movie']['title']}}" data-desc="{{$q['movie']['overview']}}" data-year="{{$q['movie']['year']}}" data-poster="{{$q['movie']['images'][0]['url']}}" data-trailer="{{$q['movie']['youTubeTrailerId']}}">
-                        <img src="{{$q['movie']['images'][0]['url']}}" alt="" class="img-thumbnail img-fluid">
+                        <div class="movie-item col-4 col-lg-2 mb-3" data-id="" data-tmdb-id="{{$q['movie']['tmdbId']}}" data-title="{{$q['movie']['title']}}" data-desc="{{$q['movie']['overview']}}" data-year="{{$q['movie']['year']}}" data-poster="{{$poster}}" data-trailer="{{$q['movie']['youTubeTrailerId']}}">
+                        <img src="{{$poster}}" alt="" class="img-thumbnail img-fluid">
                     </div>
                     @endforeach
                     @else
