@@ -48,7 +48,7 @@
                         $poster = (new App\Movie)->getPoster($movie['tmdbId']);
                         @endphp
 
-                        <div class="movie-item col-4 col-lg-2 mb-3" data-tmdb-id="{{$movie['tmdbId']}}" data-poster="{{ $poster}}" data-trailer="">
+                        <div class="movie-item col-4 col-lg-2 mb-3" data-tmdb-id="{{$movie['tmdbId']}}" data-title="{{$movie['title']}}" data-year="{{$movie['year']}}" data-desc="{{$movie['overview']}}" data-poster="{{ $poster}}" data-trailer="">
                             <img src="{{$poster}}" alt="" class="img-thumbnail img-fluid">
                         </div>
                         @endforeach
