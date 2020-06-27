@@ -47,7 +47,7 @@
                         @if(count($movies) > 0)
                         @foreach($movies as $movie)
                         <div class="movie-item col-4 col-lg-2 mb-3" data-id="{{$movie['id']}}" data-tmdb-id="{{$movie['tmdbId']}}" data-title="{{$movie['title']}}" data-desc="{{$movie['overview']}}" data-year="{{$movie['year']}}" data-poster="{{ env('RADARR_SERVER') . ':' . env('RADARR_PORT') . '/MediaCover/' . $movie['id'] . '/poster.jpg'}}" data-trailer="">
-                            <img src="{{ env('RADARR_SERVER') . ':' . env('RADARR_PORT') . '/MediaCover/' . $movie['id'] . '/poster.jpg'}}" alt="" class="img-thumbnail img-fluid">
+                            <img src="{{ env('APP_URL') . ':' . env('RADARR_PORT') . '/MediaCover/' . $movie['id'] . '/poster.jpg'}}" alt="" class="img-thumbnail img-fluid">
                         </div>
                         @endforeach
                         @else
