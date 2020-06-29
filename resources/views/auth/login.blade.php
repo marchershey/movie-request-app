@@ -31,27 +31,28 @@
                                 @enderror
 
                                 <div class="form-group">
-                                    <input type="email" class="form-control" name="email" placeholder="Email Address" value="{{ old('email') }}" required>
+                                    <input type="email" class="form-control text-center" name="email" placeholder="Plex Email Address" value="{{ old('email') }}" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="password" placeholder="Password" value="" required>
+                                    <input type="password" class="form-control text-center" name="password" placeholder="Password" value="" required>
                                 </div>
                                 <div class="form-row mb-3">
                                     <div class="col">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                            <label class="custom-control-label" for="customCheck1">Stay signed in</label>
+                                            <label class="custom-control-label" for="remember">Stay signed in</label>
                                         </div>
                                     </div>
                                     <div class="col text-right">
                                         @if (Route::has('password.request'))
-                                        <a href="{{ route('password.request') }}">Forgot password</a>
+                                        <a href="{{ route('password.request') }}">Reset Password</a>
                                         @endif
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                <hr>
                                 @if (Route::has('register'))
-                                <a class="btn btn-link btn-block" href="{{route('register')}}">Create an acount</a>
+                                <a class="btn btn-link btn-block" href="{{route('register')}}">Create an account</a>
                                 @endif
                             </form>
                         </div>

@@ -10,7 +10,7 @@
                     <p class="small text-muted text-center">Search for a movie to request it.</p>
                     <form id="searchform" action="/search/movies" method="POST">
                         @csrf
-                        <div class="form-group text-center col-md-6 mx-auto">
+                        <div class="form-group text-center">
                             <input type="text" class="form-control text-center" id="searchbox" name="movie" placeholder="Search by Movie Title...">
                             <p class="small text-muted text-center mt-2" id="search-help" style="display: none"></p>
                         </div>

@@ -33,7 +33,7 @@
                                 </div>
                             </div>
 
-                            <div id="movie-modal-badge">
+                            <div id="movie-modal-badge" style="display: none;">
                                 <div class="row mb-2">
                                     <div class="col text-center text-lg-left">
                                         <div id="movie-modal-badge-text"></div>
@@ -47,13 +47,7 @@
                                 </div>
                             </div>
 
-                            <div id="movie-modal-alert">
-                                <div class="row">
-                                    <div class="col mb-3">
-                                        <div id="movie-modal-alert-text"></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div id="movie-modal-alert" style="display: none;"></div>
 
                             <div class="row">
                                 <div class="col mb-3 text-center">

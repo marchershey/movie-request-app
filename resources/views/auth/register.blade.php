@@ -37,25 +37,26 @@
                                 @enderror
 
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="First Name" value="{{ old('name') }}" required>
-                                    <small id="namedesc" class="form-text text-muted">Your name is used only for emails and such.</small>
+                                    <input type="text" class="form-control text-center" id="name" name="name" placeholder="First Name" value="{{ old('name') }}" required>
+                                    <small id="namedesc" class="form-text text-muted text-center">Your name is used only for emails and such.</small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" value="{{ old('email') }}" required>
-                                    <small id="emaildesc" class="form-text text-muted">You must verify you email address after registration.</small>
+                                    <input type="email" class="form-control text-center" id="email" name="email" placeholder="Plex Email Address" value="{{ old('email') }}" required>
+                                    <small id="emaildesc" class="form-text text-muted text-center">This must be the email address you used for Plex.</small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="password" placeholder="Password" value="" required>
-                                    <small id="passdesc" class="form-text text-muted">Passwords must be at least 6 chatacters.</small>
+                                    <input type="password" class="form-control text-center" name="password" placeholder="Password" value="" required>
+                                    <small id="passdesc" class="form-text text-muted text-center">Passwords must be at least 6 chatacters.</small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password" value="" required>
-                                    <small id="confdesc" class="form-text text-muted">Retype your password.</small>
+                                    <input type="password" class="form-control text-center" name="password_confirmation" placeholder="Confirm Password" value="" required>
+                                    <small id="confdesc" class="form-text text-muted text-center">Retype your password.</small>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-block">Create Account</button>
-                                @if (Route::has('register'))
-                                <a class="btn btn-link btn-block" href="{{route('login')}}">Sign in</a>
-                                @endif
+                                <hr>
+
+                                <a class="btn btn-link btn-block" href="{{route('login')}}">I already have an account</a>
+
                             </form>
                         </div>
                     </div>

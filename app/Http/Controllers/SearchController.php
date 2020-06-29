@@ -7,15 +7,15 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-	public function index()
-	{
-		return view('search');
-	}
+    public function index()
+    {
+        return view('search');
+    }
 
-	public function searchMovies(Request $request)
-	{
-		$radarr = new Radarr;
-		$movies = $radarr->searchTrakt('term', $request->term);
-		return $movies;
-	}
+    public function searchMovies(Request $request)
+    {
+        $radarr = new Radarr;
+        $movies = $radarr->searchTrakt('term', $request->term);
+        return $movies;
+    }
 }

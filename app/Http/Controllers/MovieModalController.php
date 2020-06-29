@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 class MovieModalController extends Controller
 {
 
-
     /**
      * Performs the action to request a movie to be added. Accepts an ajax
      * request of the TMDB ID of the movie requested. Returns a boolean.
@@ -21,7 +20,7 @@ class MovieModalController extends Controller
     {
         // Validate tmdbid is there and numeric
         $data = $request->validate([
-            'tmdbid' => 'required|numeric'
+            'tmdbid' => 'required|numeric',
         ]);
 
         // Create instances
@@ -31,7 +30,7 @@ class MovieModalController extends Controller
         if ($radarr->doesMovieExistByTmdbId($data['tmdbid'])) {
             return [
                 'status' => 'failed',
-                'message' => 'This movie already exists in the system.'
+                'message' => 'This movie already exists in the system.',
             ];
         }
 
