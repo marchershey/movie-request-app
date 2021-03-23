@@ -1,31 +1,35 @@
 <?php
 
+// prefix = /{prefix}/
+// as = names ({as}.page)
+// namespace = Controllers Within The "App\Http\Controllers\{namespace}" Namespace
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
-    // Index
-    Route::get('/', 'IndexController@index')->name('index');
+// Index
+Route::group(['prefix' => '', 'as' => 'index.', 'namespace' => 'Index'], function () {
+    Route::get('/', 'PagesController@index')->name('index');
+});
 
-    // Search
-    Route::group(['prefix' => 'search'], function () {
-        Route::get('/', 'SearchController@index')->name('search');
-        Route::post('/movies', 'SearchController@searchMovies');
-    });
-
-    // User Dashboard Route
+Route::group(['middleware' => 'auth'], function () {
+    // Dashboard
     Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'namespace' => 'Dashboard'], function () {
-        Route::get('/settings', 'SettingsController@settings')->name('settings');
+        Route::get('/', 'PagesController@index')->name('index');
+        Route::get('/search', 'PagesController@search')->name('search');
+        Route::get('/trending', 'PagesController@trending')->name('trending');
+        Route::get('/settings', 'PagesController@settings')->name('settings');
     });
 
-    // Admin Routes
-    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
-        //
+    // Admin
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin'], function () {
+        Route::get('/', 'PagesController@index')->name('index');
     });
 
     // POST Requests
+    Route::post('/api/search/movies', 'Dashboard\SearchController@searchMovies');
     Route::post('/movie/load/actions', 'MovieModalController@loadActions');
     Route::post('/movie/request', 'MovieModalController@request');
 });

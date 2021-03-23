@@ -41,8 +41,8 @@
                                     <small id="namedesc" class="form-text text-muted text-center">Your name is used only for emails and such.</small>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control text-center" id="email" name="email" placeholder="Plex Email Address" value="{{ old('email') }}" required>
-                                    <small id="emaildesc" class="form-text text-muted text-center">This must be the email address you used for Plex.</small>
+                                    <input type="email" class="form-control text-center" id="email" name="email" placeholder="Email Address" value="{{ old('email') }}" required>
+                                    <small id="emaildesc" class="form-text text-muted text-center">You'll need to verify your email address after registration.</small>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control text-center" name="password" placeholder="Password" value="" required>

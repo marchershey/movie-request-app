@@ -31,7 +31,7 @@
                                 @enderror
 
                                 <div class="form-group">
-                                    <input type="email" class="form-control text-center" name="email" placeholder="Plex Email Address" value="{{ old('email') }}" required>
+                                    <input type="email" class="form-control text-center" name="email" placeholder="Email Address" value="{{ old('email') }}" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control text-center" name="password" placeholder="Password" value="" required>

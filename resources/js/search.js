@@ -21,19 +21,24 @@ var functions = {
     search: (term, token) => {
         $.ajax({
             type: "POST",
-            url: './search/movies',
+            url: '/api/search/movies',
             data: {
                 '_token': token,
                 'term': term
             },
             success: function (movies) {
+                console.log(movies)
                 var html = ''
-                if (movies.length == 0) {
-                    search.alert('The search returned no results. Check your spelling and try again.', 'warning')
+                if (movies.total_results == 0) {
+                    search.alert('Your search for <b>' + $.sanitize(term) + '</b> returned no results.', 'warning')
                 } else {
-                    $.each(movies, function (key, movie) {
+                    $.each(movies.results, function (key, movie) {
+                        var id = movie.id
+                        var title = movie.title
                         var desc = movie.overview.replace(/\"/g, '') // remove double quotes from overviews (example: "a bug's life")
-                        var poster = (movie.remotePoster == null) ? 'https://i.imgur.com/yNRAnse.png' : movie.remotePoster
+                        var poster = (movie.poster_path == null) ? 'https://i.imgur.com/yNRAnse.png' : process.env.MIX_TMDB_IMAGE_URL + movie.poster_path;
+
+
                         var trailer = (movie.youTubeTrailerId == null) ? '' : movie.youTubeTrailerId
                         html += `<div class="movie-item col-6 col-md-3 mb-3" data-tmdbid="${movie.tmdbId}" data-title="${movie.title}" data-year="${movie.year}" data-overview="${desc}" data-poster="${poster}" data-trailer="${trailer}" data-status="${movie.status}" data-monitored="${movie.monitored}" data-downloaded="${movie.downloaded}">
                                     <div class="card">`
@@ -67,7 +72,8 @@ var functions = {
                     $('#movie-list').slideDown()
                 })
             },
-            error: function () {
+            error: function (e) {
+                console.log(e)
                 $('#search-loading').slideUp()
                 $('#movie-list').slideDown()
                 search.alert('<strong>Error:</strong> Please refresh the page and try again.', 'danger')

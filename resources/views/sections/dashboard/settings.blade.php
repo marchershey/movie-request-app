@@ -6,22 +6,22 @@
         <div class="col col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <p class="lead text-center font-weight-bold m-0">Settings</p>
-                    <p class="small text-muted text-center">Edit your site settings</p>
+                    <p class="lead text-center font-weight-bold m-0">Account Settings</p>
+                    <p class="small text-muted text-center">Edit your account settings</p>
                     <hr>
                     <form>
                         <div class="form-group row">
                             <label for="staticEmail" class="col-sm-4 col-form-label">Display Name:</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="staticEmail" value="{{$user->name}}">
-                                <small id="emailHelp" class="form-text text-muted">The name that is displayed to other users on the site.</small>
+                                <small id="emailHelp" class="form-text text-muted">The name that is displayed to other users on this site.</small>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="staticEmail" class="col-sm-4 col-form-label">Email Address:</label>
                             <div class="col-sm-8">
                                 <input type="text" readonly class="form-control" id="staticEmail" value="{{$user->email}}">
-                                <small id="emailHelp" class="form-text text-muted">You can not change this.</small>
+                                <small id="emailHelp" class="form-text text-muted">To change your email address, head over to <a href="https://app.plex.tv">Plex</a>.</small>
                             </div>
                         </div>
                         <div class="form-group row">
